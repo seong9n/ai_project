@@ -1,15 +1,4 @@
-# Streamlit + Folium 서울 관광지 TOP10 지도 앱
-
-## app.py
-
-```python
 import streamlit as st
-import folium
-from streamlit_folium import st_folium
-
-st.set_page_config(page_title="서울 관광지 TOP10", layout="wide")
-
-st.title("🌏 외국인들이 좋아하는 서울 관광지 TOP10")
 st.markdown("폴리움(Folium) 지도로 서울의 대표 관광지를 확인해보세요!")
 
 # 서울 중심 좌표
@@ -84,24 +73,3 @@ st_folium(seoul_map, width=1200, height=600)
 st.subheader("📍 관광지 리스트")
 for idx, place in enumerate(places, start=1):
     st.write(f"{idx}. {place['name']} - {place['description']}")
-```
-
----
-
-## requirements.txt
-
-```txt
-streamlit
-folium
-streamlit-folium
-```
-
----
-
-## Streamlit Cloud 배포 방법
-
-1. 깃허브에 `app.py` 와 `requirements.txt` 업로드
-2. urlStreamlit Community Cloud[https://share.streamlit.io/](https://share.streamlit.io/) 접속
-3. GitHub 저장소 연결
-4. Main file path에 `app.py` 입력
-5. Deploy 버튼 클릭
