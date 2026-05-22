@@ -2,9 +2,7 @@ import streamlit as st
 import pandas as pd
 import plotly.express as px
 
-# -----------------------------
 # CSV 불러오기
-# -----------------------------
 try:
     df = pd.read_csv("population.csv", encoding="cp949")
 except:
@@ -13,20 +11,8 @@ except:
 # 컬럼명 수정
 df.rename(columns={"10~20세": "20~29세"}, inplace=True)
 
-# -----------------------------
 # 제목
-# -----------------------------
 st.title("📊 서울시의 인구통계")
-
-# -----------------------------
-# 행정구 선택
-# -----------------------------
-districts = df["행정구역"].tolist()
-
-selected = st.selectbox(
-    "행정구를 선택하세요",
-    districts
-)
 
 # 연령대 컬럼
 age_columns = [
@@ -43,20 +29,24 @@ age_columns = [
     "100세 이상"
 ]
 
-# -----------------------------
-# 선택한 구 데이터
-# -----------------------------
+# 행정구 선택
+districts = df["행정구역"].tolist()
+
+selected = st.selectbox(
+    "행정구를 선택하세요",
+    districts
+)
+
+# 선택 데이터
 selected_data = df[df["행정구역"] == selected]
 
-# 그래프용 데이터 생성
+# 꺾은선 그래프용 데이터
 chart_df = pd.DataFrame({
     "연령대": age_columns,
     "인구수": selected_data[age_columns].values.flatten()
 })
 
-# -----------------------------
 # 꺾은선 그래프
-# -----------------------------
 fig = px.line(
     chart_df,
     x="연령대",
@@ -65,10 +55,9 @@ fig = px.line(
     title="서울시의 인구통계"
 )
 
-# 빨간색
+# 그래프 스타일
 fig.update_traces(line_color="red")
 
-# 배경색
 fig.update_layout(
     paper_bgcolor="#E6D5FF",
     plot_bgcolor="#F3E8FF",
@@ -78,11 +67,12 @@ fig.update_layout(
     )
 )
 
+# 출력
 st.plotly_chart(fig, use_container_width=True)
 
-# ==================================================
-# 연령대별 어느 구가 많은지 분석
-# ==================================================
+# ---------------------------------------
+# 연령대별 많은 구 찾기
+# ---------------------------------------
 
 st.subheader("🏆 연령대별 인구가 많은 자치구")
 
@@ -108,10 +98,9 @@ bar_fig = px.bar(
     title=f"{selected_age} 인구가 많은 자치구 TOP10"
 )
 
-# 빨간색
+# 스타일
 bar_fig.update_traces(marker_color="red")
 
-# 배경색
 bar_fig.update_layout(
     paper_bgcolor="#E6D5FF",
     plot_bgcolor="#F3E8FF",
@@ -122,4 +111,4 @@ bar_fig.update_layout(
 )
 
 # 출력
-st.plotly_chart(bar_fig, use_container_width=True))
+st.plotly_chart(bar_fig, use_container_width=True)
