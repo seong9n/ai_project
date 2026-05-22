@@ -1,12 +1,11 @@
 import streamlit as st
 import pandas as pd
 import matplotlib.pyplot as plt
-import matplotlib.font_manager as fm
 
 # -----------------------------
-# 한글 폰트 설정
+# 한글 깨짐 방지
 # -----------------------------
-plt.rcParams['font.family'] = 'Malgun Gothic'
+plt.rcParams['font.family'] = 'NanumGothic'
 plt.rcParams['axes.unicode_minus'] = False
 
 # -----------------------------
@@ -14,7 +13,7 @@ plt.rcParams['axes.unicode_minus'] = False
 # -----------------------------
 df = pd.read_csv("population.csv")
 
-# 컬럼 이름 수정
+# 컬럼명 수정
 df.rename(columns={"10~20세": "20~29세"}, inplace=True)
 
 # 행정구 목록
@@ -51,7 +50,7 @@ age_columns = [
     "100세 이상"
 ]
 
-# 인구수
+# 인구 데이터
 population = selected_data[age_columns].values.flatten()
 
 # -----------------------------
@@ -59,8 +58,8 @@ population = selected_data[age_columns].values.flatten()
 # -----------------------------
 fig, ax = plt.subplots(figsize=(10, 5))
 
-# 바탕색 (연한 보라색)
-fig.patch.set_facecolor("#EBDCFF")
+# 배경색
+fig.patch.set_facecolor("#E6D5FF")
 ax.set_facecolor("#F3E8FF")
 
 # 꺾은선 그래프
@@ -75,15 +74,15 @@ ax.plot(
 # 제목
 ax.set_title("서울시의 인구통계", fontsize=18)
 
-# 축 이름
-ax.set_xlabel("연령대", fontsize=12)
-ax.set_ylabel("인구수", fontsize=12)
-
-# 눈금 회전
-plt.xticks(rotation=20)
+# 축 제목
+ax.set_xlabel("연령대")
+ax.set_ylabel("인구수")
 
 # 격자
 ax.grid(True, linestyle="--", alpha=0.5)
+
+# x축 글자 회전
+plt.xticks(rotation=20)
 
 # 출력
 st.pyplot(fig)
